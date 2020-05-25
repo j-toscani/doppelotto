@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "test",
-    "server:start": "nodemon dist/server.js",
+    "server:start": "node dist/server.js",
     "server:watch": "tsc --project tsconfig.json --watch",
     "server:dev": "nodemon dist/server.js"
   },
