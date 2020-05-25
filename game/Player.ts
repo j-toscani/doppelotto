@@ -1,27 +1,34 @@
-interface Player {
+
+class Player {
   name: string;
   points: number;
   hand: {}[];
-  playCard: Function;
-  getHand: Function;
-  getPoints: Function;
-  losePoints: Function;
-  callFaction: Function;
-  callNo90: Function;
-  callNo60: Function;
-  callNo30: Function;
-  callBlack: Function;
-  leaveGame: Function;
-}
-
-class Player {
-  constructor(name: string) {
-    this.name = name;
+  constructor(name: string, hand: {}[] ) {
+    this.name = name
+    this.hand = hand
+    this.points = 0
   }
   sayHi() {
     console.log(this.name);
   }
+  playCard() {
+    this.hand.pop();
+  };
+  getHand: void;
+  getPoints: void;
+  losePoints: void;
+  callFaction: void;
+  callNo90: void;
+  callNo60: void;
+  callNo30: void;
+  callBlack: void;
+  leaveGame: void;
 }
 
-const hans = new Player("Hans");
+const hans = new Player("Hans", [
+  {name:'blaue'},
+  {name:'rehdame'},
+  {name:'fuchs'},
+]);
 hans.sayHi();
+hans.playCard();
