@@ -14,7 +14,9 @@ class Player {
   playCard() {
     this.hand.pop();
   };
-  getHand: void;
+  getHand(handOfCards: {}[]) {
+    this.hand = handOfCards
+  };
   getPoints: void;
   losePoints: void;
   callFaction: void;
