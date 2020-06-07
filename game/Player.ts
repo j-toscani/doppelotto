@@ -1,19 +1,19 @@
 export default class Player {
   name: string;
   points: number;
-  hand: {}[];
+  hand: Card[] | [];
   faction: "re" | "contra" | undefined;
   call: Call;
-  constructor(name: string, hand: {}[]) {
+  constructor(name: string) {
     this.name = name;
-    this.hand = hand;
+    this.hand = [];
     this.points = 0;
     this.call = "none";
   }
   playCard() {
     this.hand.pop();
   }
-  getHand(handOfCards: {}[]) {
+  getHand(handOfCards: Card[]) {
     this.hand = handOfCards;
   }
   makeContract: void;

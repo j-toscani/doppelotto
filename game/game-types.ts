@@ -1,5 +1,5 @@
 type CardColor = "heart" | "diamonds" | "spades" | "clubs";
-type CardName = "ace" | "king" | "queen" | "jack" | "10" | "9";
+type CardName = "ace" | "10" | "king" | "queen" | "jack" | "9";
 type CardPointValue = 11 | 10 | 4 | 3 | 2 | 0;
 type Call = "none" | 120 | 90 | 60 | 30 | 0;
 type SpecName =
