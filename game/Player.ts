@@ -1,22 +1,22 @@
-
-class Player {
+export default class Player {
   name: string;
   points: number;
   hand: {}[];
-  constructor(name: string, hand: {}[] ) {
-    this.name = name
-    this.hand = hand
-    this.points = 0
-  }
-  sayHi() {
-    console.log(this.name);
+  faction: "re" | "contra" | undefined;
+  call: Call;
+  constructor(name: string, hand: {}[]) {
+    this.name = name;
+    this.hand = hand;
+    this.points = 0;
+    this.call = "none";
   }
   playCard() {
     this.hand.pop();
-  };
+  }
   getHand(handOfCards: {}[]) {
-    this.hand = handOfCards
-  };
+    this.hand = handOfCards;
+  }
+  makeContract: void;
   getPoints: void;
   losePoints: void;
   callFaction: void;
@@ -25,12 +25,5 @@ class Player {
   callNo30: void;
   callBlack: void;
   leaveGame: void;
+  setFaction: void;
 }
-
-const hans = new Player("Hans", [
-  {name:'blaue'},
-  {name:'rehdame'},
-  {name:'fuchs'},
-]);
-hans.sayHi();
-hans.playCard();
