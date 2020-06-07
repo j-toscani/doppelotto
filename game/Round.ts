@@ -19,29 +19,25 @@ export default class Round {
     this.activePhase = 0;
     this.contract = undefined;
     this.calls = [
-      this.players[0].call,
-      this.players[1].call,
-      this.players[2].call,
-      this.players[3].call,
+      this.players[0].called,
+      this.players[1].called,
+      this.players[2].called,
+      this.players[3].called,
     ];
     this.lastTrick = null;
     this.allTricks = [];
     this.cardPoints = [0, 0];
     this.gamePoints = [0, 0];
-    this.deck = [];
+    this.deck = this.createDokoDeck();
     this.withoutNine = withoutNine;
   }
-  showCalls() {
-    console.log(this.calls);
-  }
-  createDeck(): void {
-    const colors: CardColor[] = ["heart", "diamonds", "spades", "clubs"];
-    const names: CardName[] = ["ace", "10", "king", "queen", "jack", "9"];
-    const points: CardPointValue[] = [11, 10, 4, 3, 2, 0];
-    if (this.withoutNine) {
-      names.pop();
-    }
-    const halfDeck: Card[][] = colors.map((color) =>
+  // Onetime methods
+  createCards(
+    colors: CardColor[],
+    names: CardName[],
+    points: CardPointValue[]
+  ) {
+    const cards: Card[][] = colors.map((color) =>
       names.map((name, index) => {
         return {
           color: color,
@@ -50,34 +46,62 @@ export default class Round {
         };
       })
     );
+    return cards;
+  }
+  createDokoDeck(): Card[] {
+    const colors: CardColor[] = ["heart", "diamonds", "spades", "clubs"];
+    const names: CardName[] = ["ace", "10", "king", "queen", "jack", "9"];
+    const points: CardPointValue[] = [11, 10, 4, 3, 2, 0];
+    if (this.withoutNine) {
+      names.pop();
+      points.pop();
+    }
+    const cards = this.createCards(colors, names, points);
     let deck: Card[] | [] = [];
-    halfDeck.forEach((set) => (deck = [...deck, ...set, ...set]));
-    this.deck = deck.slice(0);
+    cards.forEach(
+      (colorNameCombination) =>
+        (deck = [...deck, ...colorNameCombination, ...colorNameCombination])
+    );
+    return deck.slice(0);
   }
-  logDeck() {
-    console.log("Full Deck in Object", this.deck);
+  handoutCards(): void {
+    this.players.forEach((player, index) => {
+      const hand = this.createHand(index);
+      player.getHand(hand);
+    });
   }
-  giveCards: void;
-  createHand(): void {
+  createHand(index: number): Card[] {
     const cardsPerHand = this.deck.length / 4;
+    const from: number = index * cardsPerHand;
+    const to: number = (index + 1) * cardsPerHand;
+    return this.deck.slice(from, to);
   }
-  startRound: void;
+  // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+  shuffleDeck() {
+    const deck = this.deck;
+    for (let i = deck.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      let temp = deck[i];
+      deck[i] = deck[j];
+      deck[j] = temp;
+    }
+  }
+  logState() {
+    console.log("Deck:", this.deck);
+    console.log("Players:", this.players[0]);
+  }
+  startRound() {
+    this.shuffleDeck();
+    this.handoutCards();
+    this.activePhase++;
+  }
   defineRules: void;
   endTrick: void;
 }
 
-const carl = new Player("Carl");
-
-const hans = new Player("Hans");
-
-const franz = new Player("Franz");
-
-const walter = new Player("Walter");
-
-const players = [hans, carl, franz, walter];
-
+const users = ["Carl", "Hans", "Franz", "Walter"];
+const players = users.map((name, index) => new Player(name, index));
 const round = new Round(players, false);
 
-round.showCalls();
-round.createDeck();
-round.logDeck();
+round.startRound();
+round.logState();

@@ -2,13 +2,15 @@ export default class Player {
   name: string;
   points: number;
   hand: Card[] | [];
+  position: number;
   faction: "re" | "contra" | undefined;
-  call: Call;
-  constructor(name: string) {
+  called: Call;
+  constructor(name: string, position: number) {
     this.name = name;
     this.hand = [];
     this.points = 0;
-    this.call = "none";
+    this.called = "none";
+    this.position = position;
   }
   playCard() {
     this.hand.pop();
