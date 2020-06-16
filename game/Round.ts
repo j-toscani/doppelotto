@@ -1,4 +1,5 @@
 import Player from "./Player";
+import createDokoDeck from "./lib/createDokoDeck";
 
 export default class Round {
   players: Player[];
@@ -11,7 +12,6 @@ export default class Round {
   cardPoints: [number, number];
   gamePoints: [number, number];
   deck: Card[] | [];
-  withoutNine: boolean;
 
   constructor(players: Player[], withoutNine: boolean) {
     this.players = players;
@@ -28,41 +28,7 @@ export default class Round {
     this.allTricks = [];
     this.cardPoints = [0, 0];
     this.gamePoints = [0, 0];
-    this.deck = this.createDokoDeck();
-    this.withoutNine = withoutNine;
-  }
-  // Onetime methods
-  createCards(
-    colors: CardColor[],
-    names: CardName[],
-    points: CardPointValue[]
-  ) {
-    const cards: Card[][] = colors.map((color) =>
-      names.map((name, index) => {
-        return {
-          color: color,
-          name: name,
-          roundPoints: points[index],
-        };
-      })
-    );
-    return cards;
-  }
-  createDokoDeck(): Card[] {
-    const colors: CardColor[] = ["heart", "diamonds", "spades", "clubs"];
-    const names: CardName[] = ["ace", "10", "king", "queen", "jack", "9"];
-    const points: CardPointValue[] = [11, 10, 4, 3, 2, 0];
-    if (this.withoutNine) {
-      names.pop();
-      points.pop();
-    }
-    const cards = this.createCards(colors, names, points);
-    let deck: Card[] | [] = [];
-    cards.forEach(
-      (colorNameCombination) =>
-        (deck = [...deck, ...colorNameCombination, ...colorNameCombination])
-    );
-    return deck.slice(0);
+    this.deck = createDokoDeck(withoutNine);
   }
   handoutCards(): void {
     this.players.forEach((player, index) => {
@@ -85,10 +51,6 @@ export default class Round {
       deck[i] = deck[j];
       deck[j] = temp;
     }
-  }
-  logState() {
-    console.log("Deck:", this.deck);
-    console.log("Players:", this.players[0]);
   }
   startRound() {
     this.shuffleDeck();
