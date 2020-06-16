@@ -19,7 +19,7 @@ interface Contract {
 interface Card {
   color: CardColor;
   name: CardName;
-  roundPoints: CardPointValue;
+  points: CardPointValue;
   specName?: SpecName;
 }
 

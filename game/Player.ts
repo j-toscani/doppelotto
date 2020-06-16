@@ -18,14 +18,25 @@ export default class Player {
   getHand(handOfCards: Card[]) {
     this.hand = handOfCards;
   }
-  makeContract: void;
-  getPoints: void;
-  losePoints: void;
-  callFaction: void;
-  callNo90: void;
-  callNo60: void;
-  callNo30: void;
-  callBlack: void;
+  getPoints(points: number) {
+    this.points + points;
+  }
+  losePoints(points: number) {
+    this.points - points;
+  }
+  callFaction() {
+    this.called = 120;
+  }
+  callResult(result: 90 | 60 | 30 | 0) {
+    this.called = result;
+  }
   leaveGame: void;
-  setFaction: void;
+  setFaction(hand: Card[]) {
+    const reDame = { color: "clubs", name: "queen", points: 4 };
+    if (hand.includes(reDame)) {
+      this.faction = "re";
+    } else {
+      this.faction = "contra";
+    }
+  }
 }

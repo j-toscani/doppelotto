@@ -66,4 +66,3 @@ const players = users.map((name, index) => new Player(name, index));
 const round = new Round(players, false);
 
 round.startRound();
-round.logState();
