@@ -32,7 +32,7 @@ export default class Player {
   }
   leaveGame: void;
   setFaction(hand: Card[]) {
-    const reDame = { color: "clubs", name: "queen", points: 4 };
+    const reDame: Card = { color: "clubs", name: "queen", points: 4 };
     if (hand.includes(reDame)) {
       this.faction = "re";
     } else {

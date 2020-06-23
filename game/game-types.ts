@@ -20,6 +20,7 @@ interface Card {
   color: CardColor;
   name: CardName;
   points: CardPointValue;
+  trump?: boolean;
   specName?: SpecName;
 }
 

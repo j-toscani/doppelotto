@@ -1,3 +1,5 @@
+import setTrump from "./setTrump";
+
 const colors: CardColor[] = ["heart", "diamonds", "spades", "clubs"];
 const names: CardName[] = ["ace", "10", "king", "queen", "jack", "9"];
 const points: CardPointValue[] = [11, 10, 4, 3, 2, 0];
@@ -24,7 +26,9 @@ function createDokoDeck(withoutNine: boolean): Card[] {
     names.pop();
     points.pop();
   }
-  const cards = createCards(colors, names, points);
+  const cardDummys = createCards(colors, names, points);
+  const cards = setTrump(cardDummys);
+
   let deck: Card[] | [] = [];
   cards.forEach(
     (colorNameCombination) =>
