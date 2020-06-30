@@ -25,4 +25,4 @@ interface Card {
 }
 
 // https://www.dict.cc/deutsch-englisch/Stich+%5BKartenspiel%5D.html
-type Trick = [Card, Card, Card, Card];
+type TrickArray = [Card, Card, Card, Card];
