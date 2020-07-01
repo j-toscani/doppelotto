@@ -1,4 +1,5 @@
 import Player from "./Player";
+import Trick from "./Trick";
 import createDokoDeck from "./lib/createDokoDeck";
 
 export default class Round {
