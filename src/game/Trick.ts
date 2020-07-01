@@ -1,7 +1,5 @@
 import Player from "./Player";
 
-console.log("hello");
-
 export default class Trick {
   cards: [Card, Player][];
   wonBy: Player | undefined;
@@ -41,7 +39,7 @@ export default class Trick {
       index++
     ) {
       cardFoundAt = this.cards.findIndex(
-        ([card]) => card.color === this.color && card.name === name
+        ([card]) => card.color === this.color && card.name === cardNames[index]
       );
     }
     return this.cards[cardFoundAt || 0][1];
@@ -107,5 +105,3 @@ console.log(players, cards, "hello");
 cards.forEach((_card, index) =>
   trick.addCardFrom(cards[index], players[index])
 );
-
-console.log(trick.cards);
