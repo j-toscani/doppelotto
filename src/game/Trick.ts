@@ -1,5 +1,7 @@
 import Player from "./Player";
 
+const cardNames = ["ace", "10", "king"];
+
 export default class Trick {
   cards: [Card, Player][];
   wonBy: Player | undefined;
@@ -31,32 +33,27 @@ export default class Trick {
     }
   }
   decideFel(): Player {
-    const cardNames = ["ace", "10", "king"];
     let cardFoundAt = -1;
-    for (
-      let index = 0;
-      index < cardNames.length || cardFoundAt !== -1;
-      index++
-    ) {
+    for (let index = 0; cardFoundAt === -1; index++) {
       cardFoundAt = this.cards.findIndex(
         ([card]) => card.color === this.color && card.name === cardNames[index]
       );
+      if (index === cardNames.length) {
+        return new Player("MissingNo", 4);
+      }
     }
-    return this.cards[cardFoundAt || 0][1];
+    return this.cards[cardFoundAt][1];
   }
-  decideTrump(): Player {
+  decideTrump(cards: [Card, Player][]): Player {
     const index = 1;
-    return this.cards[index || 0][1];
+    return cards[index || 0][1];
   }
   decideWinner(): Player | Error {
-    if (this.type === "fel") {
-      const winner = this.decideFel();
-      console.log(winner);
-      return winner;
-    } else if (this.type === "trump") {
-      return this.decideTrump();
+    const trumpCards = this.cards.filter((card) => card[0].trump);
+    if (this.type === "fel" && trumpCards.length === 0) {
+      return this.decideFel();
     } else {
-      throw new Error("Gametype was not chosen properly");
+      return this.decideTrump(trumpCards);
     }
   }
 }
@@ -99,8 +96,6 @@ const marcus = new Player("Marcus", 2);
 const jens = new Player("Jens", 3);
 
 const players = [hans, walter, marcus, jens];
-
-console.log(players, cards, "hello");
 
 cards.forEach((_card, index) =>
   trick.addCardFrom(cards[index], players[index])
