@@ -124,16 +124,3 @@ const cards: Card[] = [
     trump: false,
   },
 ];
-
-const hans = new Player("Hans", 0);
-const walter = new Player("Walter", 1);
-const marcus = new Player("Marcus", 2);
-const jens = new Player("Jens", 3);
-
-const players = [hans, walter, marcus, jens];
-
-cards.forEach((_card, index) =>
-  trick.addCardFrom(cards[index], players[index])
-);
-
-console.log(trick.wonBy);

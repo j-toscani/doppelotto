@@ -1,7 +1,7 @@
 export default class Player {
   name: string;
   points: number;
-  hand: Card[] | [];
+  hand: Card[];
   position: number;
   faction: "re" | "contra" | undefined;
   called: Call;
@@ -12,8 +12,8 @@ export default class Player {
     this.called = "none";
     this.position = position;
   }
-  playCard() {
-    this.hand.pop();
+  playCard(): Card | undefined {
+    return this.hand.pop();
   }
   getHand(handOfCards: Card[]) {
     this.hand = handOfCards;
