@@ -4,7 +4,7 @@
   "description": "The Backend of a cardgame side",
   "main": "server.js",
   "scripts": {
-    "test": "test",
+    "test": "jest --watch",
     "server:start": "node dist/server.js",
     "server:watch": "tsc --project tsconfig.json --watch",
     "server:dev": "nodemon dist/server.js"
