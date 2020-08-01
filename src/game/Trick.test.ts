@@ -107,3 +107,18 @@ describe("Adding cards to the trick automatically progresses the game", () => {
     expect(testTrick.wonBy).toEqual(testTrick.cards[winner][1]);
   });
 });
+
+describe("All test Tricks generate the right winner", () => {
+  const players = [hans, walter, marcus, jens];
+
+  randomTricks.forEach((trickObject, index) => {
+    test(`Checking for the following trick at: ${index}`, () => {
+      const testTrick = new Trick(standard);
+      const { trick, type, winner } = trickObject;
+      trick.forEach((card, index) =>
+        testTrick.addCardFrom(card, players[index])
+      );
+      expect(testTrick.wonBy).toEqual(testTrick.cards[winner][1]);
+    });
+  });
+});
