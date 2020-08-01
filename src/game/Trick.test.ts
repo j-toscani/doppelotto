@@ -1,6 +1,7 @@
 import Trick from "./Trick";
 import Player from "./Player";
 import createDokoDeck from "../lib/game/createDokoDeck";
+import randomTricks from "../lib/game/randomTricks";
 
 const hans = new Player("Hans", 0);
 const walter = new Player("Walter", 1);
@@ -60,14 +61,49 @@ test("Tricktype is set properly: trump", () => {
   expect(trumpTrick.type).toBe("trump");
   expect(trumpTrick.color).toBeFalsy();
 });
+test("Trick accepts adding cards and players", () => {
+  const contract: Contract = {
+    isWedding: false,
+    isSolo: false,
+  };
+
+  const trumpCard: Card = {
+    color: "diamonds",
+    points: 2,
+    name: "jack",
+    trump: true,
+  };
+
+  const trumpTrick = new Trick(standard);
+
+  trumpTrick.addCardFrom(trumpCard, hans);
+
+  expect(trumpTrick.cards.length).toBe(1);
+  expect(trumpTrick.cards[0][0]).toBe(trumpCard);
+  expect(trumpTrick.cards[0][1]).toBe(hans);
+});
 
 describe("Adding cards to the trick automatically progresses the game", () => {
+  const testTrick = new Trick(standard);
+  const randomTrickObject = randomTricks[0];
+  const { trick, type, winner } = randomTrickObject;
+  testTrick.addCardFrom(trick[0], hans);
+
   test("Setting the trick type after playing the first card", () => {
-    const trick = new Trick(standard);
-    const randomCard = deck.splice(Math.floor(Math.random() * deck.length))[0];
-    trick.addCardFrom(randomCard, hans);
-    expect(trick.cards[0][0]).toBe(randomCard);
-    expect(trick.cards[0]).toStrictEqual([randomCard, hans]);
-    expect(trick.type).toBeTruthy();
+    expect(testTrick.type).toBeTruthy();
+  });
+  test("Setting the right trick type", () => {
+    expect(testTrick.type).toBe(type);
+  });
+
+  testTrick.addCardFrom(trick[1], walter);
+  testTrick.addCardFrom(trick[2], marcus);
+  testTrick.addCardFrom(trick[3], jens);
+
+  test("Deciding on a winner after the last card was played", () => {
+    expect(testTrick.wonBy).toBeTruthy();
+  });
+  test("Finding the right winner after the last card was played", () => {
+    expect(testTrick.wonBy).toEqual(testTrick.cards[winner][1]);
   });
 });

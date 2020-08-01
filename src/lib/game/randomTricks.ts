@@ -1,4 +1,4 @@
-[
+export default [
   {
     trick: [
       { color: "diamonds", name: "king", points: 4, trump: true },
@@ -99,4 +99,4 @@
     type: "fel",
     winner: 3,
   },
-];
+] as { trick: Card[]; type: string; winner: number }[];

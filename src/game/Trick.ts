@@ -19,12 +19,12 @@ export default class Trick {
     this.contract = contract;
     this.wonBy = undefined;
     this.type = undefined;
-    this.cardColors = ["clubs", "spades", "diamonds", "heart"];
+    this.cardColors = ["clubs", "spades", "heart", "diamonds"];
   }
   decideTrickType(card: Card) {
     if (card.trump) {
       this.type = "trump";
-    } else {
+    } else if (!card.trump) {
       this.type = "fel";
       this.color = card.color;
     }
@@ -52,43 +52,40 @@ export default class Trick {
     if (indexOfWinner === -1) return new Player("TrumpFailed", 4);
     return this.cards[indexOfWinner][1];
   }
-  decideTrump(cards: [Card, Player][]): Player {
-    const indexOfDulle = cards.findIndex(
-      ([card]) => card.color === "heart" && card.name === "10"
+  decideTrump(cardPlayerTouple: [Card, Player][]) {
+    const cards = cardPlayerTouple.map((entry) => entry[0]);
+    let iterate = true;
+    let name = "";
+    for (let index = 0; index < trumpNames.length && iterate; index++) {
+      iterate = !cards.some((card) => card.name === trumpNames[index]);
+      if (!iterate) {
+        name = trumpNames[index];
+      }
+    }
+    const highestCards = cards.filter((card) => card.name === name);
+
+    iterate = true;
+    let color = "";
+    for (let index = 0; index < trumpNames.length && iterate; index++) {
+      iterate = !highestCards.some(
+        (card) => card.color === this.cardColors[index]
+      );
+      if (!iterate) {
+        color = this.cardColors[index];
+      }
+    }
+
+    const winnerIndex = this.cards.findIndex(
+      (card) => card[0].name === name && card[0].color === color
     );
-    if (indexOfDulle !== -1) return this.cards[indexOfDulle][1];
-
-    let highestValueCards: [Card, Player][] = [];
-    for (
-      let index = 0;
-      highestValueCards.length === 0 && index < trumpNames.length;
-      index++
-    ) {
-      highestValueCards = cards.filter(
-        (card) => card[0].name === trumpNames[index]
-      );
-    }
-
-    let indexOfWinner = -1;
-    for (
-      let index = 0;
-      indexOfWinner === -1 && index < this.cardColors.length;
-      index++
-    ) {
-      indexOfWinner = highestValueCards.findIndex(
-        (card) => card[0].color === this.cardColors[index]
-      );
-    }
-
-    if (indexOfWinner === -1) return new Player("TrumpFailed", 4);
-    return cards[indexOfWinner || 0][1];
+    return this.cards[winnerIndex][1];
   }
   decideWinner(): Player {
     const trumpCards = this.cards.filter((card) => card[0].trump);
     if (this.type === "fel" && trumpCards.length === 0) {
       return this.decideFel();
     } else {
-      return this.decideTrump(trumpCards);
+      return this.decideTrump(this.cards);
     }
   }
 }
