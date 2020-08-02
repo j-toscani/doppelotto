@@ -7,8 +7,7 @@
     "strict": true,
     "noImplicitAny": true,
     "esModuleInterop": true
-
   },
-  "include": ["./**/*.ts"],
+  "include": ["./src/**/*.ts", "types/game-types.ts"],
   "exclude": ["node_modules"]
 }
